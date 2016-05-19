@@ -30,7 +30,7 @@ public class DataProvider {
             while (lines.hasNext()) {
                 String line = (String) lines.next();
                 if (!line.contains("CAT"))
-                    allData += line;
+                    allData += line + "\n";
             }
         } catch (IOException e) {
             System.err.println("IO Exception occured while reading the data!");
@@ -43,29 +43,26 @@ public class DataProvider {
         String data = "";
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File(classLoader.getResource("scatterplot.csv").getFile());
+            File file = new File(classLoader.getResource("scatterplot.txt").getFile());
             data = getData(file.toURI().toURL());
         } catch (IOException e) {
             System.err.println("IO Exception occured while transforming data to list!");
         }
         
         Scanner fileScanner = new Scanner(data);
-        fileScanner.useDelimiter(",");
-        
-        Scanner lineScanner;
+        fileScanner.useDelimiter("\n");
         
         while (fileScanner.hasNext()){
             String line = fileScanner.next();
-            lineScanner = new Scanner(line);
-            lineScanner.useDelimiter(";");
+            Scanner lineScanner = new Scanner(line);
+            lineScanner.useDelimiter("\t");
             DataModel dm = new DataModel();
-            dm.setCAT(lineScanner.nextInt());
-            dm.setEIG1(lineScanner.nextInt());
-            dm.setEIG2(Double.parseDouble(lineScanner.next()));
+            dm.setCAT(Integer.parseInt(lineScanner.next()));
+            dm.setEIG1(Integer.parseInt(lineScanner.next()));
+            dm.setEIG2(Double.parseDouble((lineScanner.next()).replace(',', '.')));
             plots.add(dm);
         }
         
         return plots;
     }
-
 }
