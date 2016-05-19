@@ -18,12 +18,12 @@ public class Canvas extends PApplet {
     private ScatterPlot scatterPlot;
     
     public void setup(){
-        size(800, 800);
+        size(1200, 800);
         
         background(255);
         
         dataProvider = new DataProvider();
-        scatterPlot = new ScatterPlot(this, new Rect<>(100, 700, 700, 700), dataProvider.getDataList());
+        scatterPlot = new ScatterPlot(this, new Rect<>(100, 700, 600, 600), dataProvider.getDataList());
     }
     
     public void draw(){
