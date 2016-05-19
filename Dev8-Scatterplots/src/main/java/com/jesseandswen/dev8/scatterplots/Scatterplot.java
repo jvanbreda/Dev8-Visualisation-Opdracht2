@@ -29,7 +29,7 @@ public class ScatterPlot {
     private List<DataModel> dataList;
     private List<DataModel> mappedDataList;
     
-    private final int intervals = 10;
+    private Vector2<Integer> intervals = new Vector2<Integer>(10, 10);
 
     public ScatterPlot(PApplet applet, Rect<Integer> area, List<DataModel> data) {
         this.applet = applet;
@@ -66,8 +66,17 @@ public class ScatterPlot {
         }
     }
     
+    public void intervalEvery(int x, int y) {
+        Vector2<Float> maxValues = getRoundedMaxValues();
+        
+        int intervalX = (int)(maxValues.x / (float)x);
+        int intervalY = (int)(maxValues.y / (float)y);
+        
+        intervals = new Vector2<>(intervalX, intervalY);
+    }
+    
     private List<DataModel> mapData(List<DataModel> data) {
-        Vector2<Float> maxValues = getMaxValues();
+        Vector2<Float> maxValues = getRoundedMaxValues();
         DataModel[] newData = new DataModel[data.size()];
         for (int i = 0; i < data.size(); i++) {
             DataModel model = new DataModel();
@@ -78,6 +87,19 @@ public class ScatterPlot {
             newData[i] = model;
         }
         return Arrays.asList(newData);
+    }
+    
+    // HMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+    private Vector2<Float> getRoundedMaxValues() {
+        Vector2<Float> maxValues = getMaxValues();
+        
+        int lengthOfX = String.valueOf(Math.round(maxValues.x)).length();
+        int lengthOfY = String.valueOf(Math.round(maxValues.y)).length();
+        
+        maxValues.x = maxValues.x - (maxValues.x % 10);
+        maxValues.y = maxValues.y - (maxValues.y % 100) + 100;
+        
+        return maxValues;
     }
     
     private Vector2<Float> getMaxValues() {
@@ -99,22 +121,26 @@ public class ScatterPlot {
         applet.line(area.x, area.y, area.x + area.width, area.y); // Horizontal line (X-axis)
         applet.line(area.x, area.y, area.x, area.y - area.height); // Vertical line (Y-axis)
         
-        Vector2<Float> maxValues = getMaxValues();
-        applet.textAlign(applet.CENTER, applet.TOP);
+        Vector2<Float> maxValues = getRoundedMaxValues();
         applet.fill(0);
         int lineHeight = 10;
         
         // Horizontale intervals
-        for (int i = 0; i <= intervals; i++) {
-            applet.line(area.x + (i * (area.width / intervals)), area.y, area.x + (i * (area.width / intervals)), area.y + lineHeight);
-            applet.text(Math.round((maxValues.x / intervals) * i), area.x + (i * (area.width / intervals)), area.y + lineHeight + 4);
+        applet.textAlign(applet.CENTER, applet.TOP);
+        for (int i = 1; i <= intervals.x; i++) {
+            applet.line(area.x + (i * (area.width / intervals.x)), area.y, area.x + (i * (area.width / intervals.x)), area.y + lineHeight);
+            applet.text(Math.round((maxValues.x / intervals.x) * i), area.x + (i * (area.width / intervals.x)), area.y + lineHeight + 4);
         }
         
-        applet.textAlign(applet.RIGHT, applet.CENTER);
         // Vertical intervals
-        for (int i = 0; i <= intervals; i++) {
-            applet.line(area.x, area.y - (i * (area.height / intervals)), area.x - lineHeight, area.y - (i * (area.height / intervals)));
-            applet.text(Math.round((maxValues.y / intervals) * i), area.x - lineHeight - 4, area.y - (i * (area.width / intervals)));
+        applet.textAlign(applet.RIGHT, applet.CENTER);
+        for (int i = 1; i <= intervals.y; i++) {
+            applet.line(area.x, area.y - (i * (area.height / intervals.y)), area.x - lineHeight, area.y - (i * (area.height / intervals.y)));
+            applet.text(Math.round((maxValues.y / intervals.y) * i), area.x - lineHeight - 4, area.y - (i * (area.width / intervals.y)));
         }
+        
+        // Origin
+        applet.textAlign(applet.RIGHT, applet.TOP);
+        applet.text(0, area.x - 4, area.y - 4);
     }
 }

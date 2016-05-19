@@ -24,6 +24,7 @@ public class Canvas extends PApplet {
         
         dataProvider = new DataProvider();
         scatterPlot = new ScatterPlot(this, new Rect<>(100, 700, 600, 600), dataProvider.getDataList());
+        scatterPlot.intervalEvery(10, 100);
     }
     
     public void draw(){
