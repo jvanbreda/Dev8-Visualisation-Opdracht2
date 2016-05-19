@@ -16,9 +16,7 @@ import java.util.List;
 public class Main {
     
     public static void main(String[] args){
-        //Scatterplot.main("com.jesseandswen.dev8.scatterplots.Scatterplot");
-        List<DataModel> list = new DataProvider().getDataList();
-        System.out.println(list.size());
+        Canvas.main("com.jesseandswen.dev8.scatterplots.Canvas");
     }
     
 }
