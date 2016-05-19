@@ -20,13 +20,14 @@ public class Canvas extends PApplet {
     public void setup(){
         size(1200, 800);
         
-        background(255);
-        
         dataProvider = new DataProvider();
         scatterPlot = new ScatterPlot(this, new Rect<>(100, 700, 600, 600), dataProvider.getDataList());
+        scatterPlot.intervalEvery(10, 100);
     }
     
     public void draw(){
+        background(255);
+        
         scatterPlot.draw();
     }
     
