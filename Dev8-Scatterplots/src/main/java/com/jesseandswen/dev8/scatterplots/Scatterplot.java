@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import javafx.scene.text.TextAlignment;
 import processing.core.PApplet;
 import static processing.core.PApplet.map;
 
@@ -27,6 +28,8 @@ public class ScatterPlot {
     private Rect<Integer> area;
     private List<DataModel> dataList;
     private List<DataModel> mappedDataList;
+    
+    private final int intervals = 10;
 
     public ScatterPlot(PApplet applet, Rect<Integer> area, List<DataModel> data) {
         this.applet = applet;
@@ -37,9 +40,7 @@ public class ScatterPlot {
     }
     
     public void draw() {
-        applet.stroke(0);
-        applet.line(area.x, area.y, area.width, area.y); // Horizontal line (X-axis)
-        applet.line(area.x, area.y, area.x, applet.height - area.height); // Vertical line (Y-axis)
+        drawAxis();
         
         for (DataModel model : mappedDataList) {
             Rgb rgb = Rgb.RED;
@@ -69,10 +70,10 @@ public class ScatterPlot {
         Vector2<Float> maxValues = getMaxValues();
         DataModel[] newData = new DataModel[data.size()];
         for (int i = 0; i < data.size(); i++) {
-            DataModel model = data.get(i);
-            
-            model.setEIG1((int)map(model.getEIG1(), 0, maxValues.x, area.x, area.width));
-            model.setEIG2(map(model.getEIG2(), 0, maxValues.y, area.y, applet.height - area.height));
+            DataModel model = new DataModel();
+            model.setCAT(data.get(i).getCAT());  
+            model.setEIG1((int)map(data.get(i).getEIG1(), 0, maxValues.x, area.x, area.x + area.width));
+            model.setEIG2(map(data.get(i).getEIG2(), 0, maxValues.y, area.y, area.y - area.height));
             
             newData[i] = model;
         }
@@ -91,5 +92,29 @@ public class ScatterPlot {
         }
         
         return new Vector2<>(maxEIG1, maxEIG2);
+    }
+    
+    private void drawAxis() {
+        applet.stroke(0);
+        applet.line(area.x, area.y, area.x + area.width, area.y); // Horizontal line (X-axis)
+        applet.line(area.x, area.y, area.x, area.y - area.height); // Vertical line (Y-axis)
+        
+        Vector2<Float> maxValues = getMaxValues();
+        applet.textAlign(applet.CENTER, applet.TOP);
+        applet.fill(0);
+        int lineHeight = 10;
+        
+        // Horizontale intervals
+        for (int i = 0; i <= intervals; i++) {
+            applet.line(area.x + (i * (area.width / intervals)), area.y, area.x + (i * (area.width / intervals)), area.y + lineHeight);
+            applet.text(Math.round((maxValues.x / intervals) * i), area.x + (i * (area.width / intervals)), area.y + lineHeight + 4);
+        }
+        
+        applet.textAlign(applet.RIGHT, applet.CENTER);
+        // Vertical intervals
+        for (int i = 0; i <= intervals; i++) {
+            applet.line(area.x, area.y - (i * (area.height / intervals)), area.x - lineHeight, area.y - (i * (area.height / intervals)));
+            applet.text(Math.round((maxValues.y / intervals) * i), area.x - lineHeight - 4, area.y - (i * (area.width / intervals)));
+        }
     }
 }
