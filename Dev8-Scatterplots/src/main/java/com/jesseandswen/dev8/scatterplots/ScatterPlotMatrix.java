@@ -88,7 +88,7 @@ public class ScatterPlotMatrix {
 
                 List<DataModel> dataModels = new ArrayList<>();
                 for (int j = 0; j < dataSet.values().size(); j++) {
-                    DataModel dataModel = new DataModel(1, dataSet.get((String) dataSet.keySet().toArray()[k])[j], dataSet.get((String) dataSet.keySet().toArray()[i])[j]);
+                    DataModel dataModel = new DataModel(1, dataSet.get((String) dataSet.keySet().toArray()[k])[j], dataSet.get((String) dataSet.keySet().toArray()[dataSet.size() - 1 - i])[j]);
                     dataModels.add(dataModel);
                 }
 

@@ -26,7 +26,7 @@ public class Canvas extends PApplet {
 //    private ScatterPlot scatterPlot;
     
     public void setup(){
-        size(1200, 800);
+        size(800, 800);
         
         dataProvider = new DataProvider();
         
@@ -35,7 +35,7 @@ public class Canvas extends PApplet {
         
         int size = studentModels.size();
         
-//        float[] studentNumbers = new float[size];
+        float[] studentNumbers = new float[size];
         float[] studentAge = new float[size];
         float[] ana = new float[size];
         float[] dev = new float[size];
@@ -43,7 +43,7 @@ public class Canvas extends PApplet {
         float[] skl = new float[size];
         
         for (int i = 0; i < studentModels.size(); i++) {
-//            studentNumbers[i] = studentModels.get(i).getStnr();
+            studentNumbers[i] = studentModels.get(i).getStnr();
             studentAge[i] = studentModels.get(i).getLftd();
             ana[i] = studentModels.get(i).getAna();
             dev[i] = studentModels.get(i).getDev();
@@ -51,7 +51,7 @@ public class Canvas extends PApplet {
             skl[i] = studentModels.get(i).getSkl();
         }
         
-        //dataSet.put("StudentNumbers", studentNumbers);
+        dataSet.put("StudentNumbers", studentNumbers);
         dataSet.put("Student Age", studentAge);
         dataSet.put("Analysis", ana);
         dataSet.put("Development", dev);
