@@ -28,7 +28,7 @@ public class ScatterPlot {
 
     private Rect<Integer> area;
     private List<DataModel> dataList;
-    private List<DataModel<Float>> mappedDataList;
+    private List<DataModel> mappedDataList;
 
     private Vector2<Float> intervals = new Vector2<>(10f, 10f);
 
@@ -41,8 +41,6 @@ public class ScatterPlot {
     }
 
     public void draw() {
-        drawHelpLines();
-
         for (DataModel model : mappedDataList) {
             Rgb rgb = Rgb.RED;
             switch (model.getCAT()) {
@@ -63,8 +61,33 @@ public class ScatterPlot {
             }
             applet.stroke(rgb.getR(), rgb.getG(), rgb.getB());
             applet.fill(rgb.getR(), rgb.getG(), rgb.getB());
-            applet.ellipse((float)model.getEIG1(), (float)model.getEIG2(), 5, 5);
+            applet.ellipse(Float.parseFloat(model.getEIG1().toString()), Float.parseFloat(model.getEIG2().toString()), 5f, 5f);
         }
+    }
+    
+    public void drawHelpLines() {
+        Vector2<Integer> mousePosition = new Vector2(applet.mouseX, applet.mouseY);
+        Vector2<Float> maxValues = getMaxValues();
+
+        // If mouse is in area
+        if (mousePosition.x > area.x && mousePosition.x < area.x + area.width && mousePosition.y < area.y && mousePosition.y > area.y - area.height) {
+            applet.stroke(125);
+            
+            applet.textAlign(applet.CENTER, applet.BOTTOM);
+            applet.text((int) map(mousePosition.x, area.x, area.x + area.width, 0, maxValues.x), mousePosition.x, area.y - area.height - 4);
+            
+            applet.textAlign(applet.LEFT, applet.CENTER);
+            applet.text((int) map(mousePosition.y, area.y, area.y - area.height, 0, maxValues.y), area.x + area.width + 4, mousePosition.y);
+            
+            applet.line(area.x, mousePosition.y, area.x + area.width, mousePosition.y); // Horizontal line (X-axis)
+            applet.line(mousePosition.x, area.y, mousePosition.x, area.y - area.height); // Vertical line (Y-axis)
+        }
+    }
+    
+    public void drawBorder() {
+        applet.stroke(0);
+        applet.fill(255);
+        applet.rect(area.x, area.y, area.width, -area.height);
     }
     
     public void drawAxis() {
@@ -72,7 +95,7 @@ public class ScatterPlot {
         applet.line(area.x, area.y, area.x + area.width, area.y); // Horizontal line (X-axis)
         applet.line(area.x, area.y, area.x, area.y - area.height); // Vertical line (Y-axis)
 
-        Vector2<Float> maxValues = getRoundedMaxValues();
+        Vector2<Float> maxValues = getMaxValues();
         applet.fill(0);
         int lineHeight = 10;
 
@@ -96,36 +119,17 @@ public class ScatterPlot {
     }
 
     public void intervalEvery(int x, int y) {
-        Vector2<Float> maxValues = getRoundedMaxValues();
+        Vector2<Float> maxValues = getMaxValues();
 
         float intervalX = maxValues.x / x;
         float intervalY = maxValues.y / y;
 
         intervals = new Vector2<>(intervalX, intervalY);
     }
-    
-    private void drawHelpLines() {
-        Vector2<Integer> mousePosition = new Vector2(applet.mouseX, applet.mouseY);
-        Vector2<Float> maxValues = getRoundedMaxValues();
 
-        // If mouse is in area
-        if (mousePosition.x > area.x && mousePosition.x < area.x + area.width && mousePosition.y < area.y && mousePosition.y > area.y - area.height) {
-            applet.stroke(125);
-            
-            applet.textAlign(applet.CENTER, applet.BOTTOM);
-            applet.text((int) map(mousePosition.x, area.x, area.x + area.width, 0, maxValues.x), mousePosition.x, area.y - area.height - 4);
-            
-            applet.textAlign(applet.LEFT, applet.CENTER);
-            applet.text((int) map(mousePosition.y, area.y, area.y - area.height, 0, maxValues.y), area.x + area.width + 4, mousePosition.y);
-            
-            applet.line(area.x, mousePosition.y, area.x + area.width, mousePosition.y); // Horizontal line (X-axis)
-            applet.line(mousePosition.x, area.y, mousePosition.x, area.y - area.height); // Vertical line (Y-axis)
-        }
-    }
-
-    private List<DataModel<Float>> mapData(List<DataModel> data) {
-        Vector2<Float> maxValues = getRoundedMaxValues();
-        DataModel<Float>[] newData = new DataModel[data.size()];
+    private List<DataModel> mapData(List<DataModel> data) {
+        Vector2<Float> maxValues = getMaxValues();
+        DataModel[] newData = new DataModel[data.size()];
         for (int i = 0; i < data.size(); i++) {
             DataModel model = new DataModel();
             model.setCAT(data.get(i).getCAT());
@@ -138,6 +142,7 @@ public class ScatterPlot {
     }
 
     // HMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM???????????????????
+    @Deprecated
     private Vector2<Float> getRoundedMaxValues() {
         Vector2<Float> maxValues = getMaxValues();
 

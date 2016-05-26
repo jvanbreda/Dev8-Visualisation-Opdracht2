@@ -37,14 +37,25 @@ public class ScatterPlotMatrix {
         this.dataSet = dataSet;
 
         scatterPlots = generateScatterPlots(dataSet);
-        
+
         title = generateTitle(dataSet);
     }
 
     public void draw() {
+//        applet.stroke(0);
+        applet.textAlign(applet.CENTER);
+        applet.textSize(16);
+        applet.fill(0);
+        applet.text(title, area.x + area.width / 2, area.y - area.height - 20);
+//        applet.fill(240);
+//        applet.rect(area.x, area.y, area.width, -area.height);
+        
         for (ScatterPlot scatterPlot : scatterPlots) {
+            scatterPlot.drawBorder();
             scatterPlot.draw();
         }
+        
+        drawDiagonals();
     }
 
     public String getTitle() {
@@ -56,7 +67,7 @@ public class ScatterPlotMatrix {
     }
 
     private String generateTitle(LinkedHashMap<String, float[]> dataSet) {
-        String[] columnNames = (String[])dataSet.keySet().toArray();
+        Object[] columnNames = dataSet.keySet().toArray();
         StringBuilder stringBuilder = new StringBuilder("Matrix Plot of ");
         for (int i = 0; i < columnNames.length; i++) {
             if (i != 0) {
@@ -70,18 +81,37 @@ public class ScatterPlotMatrix {
 
     private List<ScatterPlot> generateScatterPlots(LinkedHashMap<String, float[]> dataSet) {
         List<ScatterPlot> scatterPlots = new ArrayList<>();
-        int y = 0;
-        for (int i = 0; i < dataSet.size(); i++) {
-            List<DataModel> dataModels = new ArrayList<>();
-            for (int j = 0; j < dataSet.values().size(); j++) {
-                DataModel dataModel = new DataModel(0, dataSet.get(i)[j], dataSet.get(i)[j]);
-                dataModels.add(dataModel);
+        for (int k = 0; k < dataSet.size(); k++) {
+            for (int i = 0; i < dataSet.size(); i++) {
+                if ((i + 1 + k) % dataSet.size() == 0)
+                    continue;
+
+                List<DataModel> dataModels = new ArrayList<>();
+                for (int j = 0; j < dataSet.values().size(); j++) {
+                    DataModel dataModel = new DataModel(1, dataSet.get((String) dataSet.keySet().toArray()[k])[j], dataSet.get((String) dataSet.keySet().toArray()[i])[j]);
+                    dataModels.add(dataModel);
+                }
+
+                scatterPlots.add(new ScatterPlot(applet, new Rect<Integer>(area.x + i * (area.width / dataSet.size()), area.y - k * (area.height / dataSet.size()), area.width / dataSet.size(), area.height / dataSet.size()), dataModels));
             }
-            if(i % dataSet.size() != 0)
-                scatterPlots.add(new ScatterPlot(applet, new Rect<Integer>(area.x + i * (area.width / dataSet.size()), area.y + y * (area.height / dataSet.size()), area.width / dataSet.size(), area.height / dataSet.size()), dataModels));
-            if(i + 1 == dataSet.size())
-                y++;
         }
         return scatterPlots;
+    }
+    
+    private void drawDiagonals() {
+        for (int k = 0; k < dataSet.size(); k++) {
+            for (int i = 0; i < dataSet.size(); i++) {
+                if ((i + 1 + k) % dataSet.size() != 0)
+                    continue;
+                
+                applet.stroke(0);
+                applet.fill(240);
+                applet.rect(area.x + i * (area.width / dataSet.size()), area.y - k * (area.height / dataSet.size()), area.width / dataSet.size(), -area.height / dataSet.size());
+                applet.textAlign(applet.CENTER, applet.CENTER);
+                applet.textSize(14);
+                applet.fill(0);
+                applet.text((String) dataSet.keySet().toArray()[k], area.x + i * (area.width / dataSet.size()), area.y - k * (area.height / dataSet.size()), area.width / dataSet.size(), -area.height / dataSet.size());
+            }
+        }
     }
 }
