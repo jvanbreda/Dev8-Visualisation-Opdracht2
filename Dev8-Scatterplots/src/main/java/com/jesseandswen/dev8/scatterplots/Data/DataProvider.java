@@ -82,6 +82,10 @@ public class DataProvider {
         Scanner fileScanner = new Scanner(data);
         fileScanner.useDelimiter("\n");
         
+        // Skip first 2 lines
+        fileScanner.next();
+        fileScanner.next();
+        
         while (fileScanner.hasNext()){
             String line = fileScanner.next();
             Scanner lineScanner = new Scanner(line);
