@@ -93,12 +93,15 @@ public class ScatterPlotMatrix {
                     continue;
 
                 List<DataModel> dataModels = new ArrayList<>();
-                for (int j = 0; j < dataSet.values().size(); j++) {
-                    DataModel dataModel = new DataModel(1, dataSet.get((String) dataSet.keySet().toArray()[k])[j], dataSet.get((String) dataSet.keySet().toArray()[dataSet.size() - 1 - i])[j]);
+                for (int j = 0; j < dataSet.get((String) dataSet.keySet().toArray()[0]).length; j++) {
+                    DataModel dataModel = new DataModel(1, dataSet.get((String) dataSet.keySet().toArray()[dataSet.size() - 1 - i])[j], dataSet.get((String) dataSet.keySet().toArray()[k])[j]);
                     dataModels.add(dataModel);
                 }
-
-                scatterPlots.add(new ScatterPlot(applet, new Rect<Integer>(area.x + i * (area.width / dataSet.size()), area.y - k * (area.height / dataSet.size()), area.width / dataSet.size(), area.height / dataSet.size()), dataModels));
+                
+                ScatterPlot scatterPlot = new ScatterPlot(applet, new Rect<Integer>(area.x + i * (area.width / dataSet.size()), area.y - k * (area.height / dataSet.size()), area.width / dataSet.size(), area.height / dataSet.size()), dataModels);
+                scatterPlot.setIntervals(new Vector2<>(5, 5));
+                scatterPlot.setPointSize(new Vector2<>(1f, 1f));
+                scatterPlots.add(scatterPlot);
             }
         }
         return scatterPlots;

@@ -30,7 +30,8 @@ public class ScatterPlot {
     private List<DataModel> dataList;
     private List<DataModel> mappedDataList;
 
-    private Vector2<Float> intervals = new Vector2<>(10f, 10f);
+    private Vector2<Integer> intervals = new Vector2<>(10, 10);
+    private Vector2<Float> pointSize = new Vector2<>(5f, 5f);
 
     public ScatterPlot(PApplet applet, Rect<Integer> area, List<DataModel> data) {
         this.applet = applet;
@@ -61,7 +62,7 @@ public class ScatterPlot {
             }
             applet.stroke(rgb.getR(), rgb.getG(), rgb.getB());
             applet.fill(rgb.getR(), rgb.getG(), rgb.getB());
-            applet.ellipse(Float.parseFloat(model.getEIG1().toString()), Float.parseFloat(model.getEIG2().toString()), 5f, 5f);
+            applet.ellipse(Float.parseFloat(model.getEIG1().toString()), Float.parseFloat(model.getEIG2().toString()), pointSize.x, pointSize.y);
         }
     }
     
@@ -128,7 +129,7 @@ public class ScatterPlot {
 
         // Horizontal intervals
         applet.textAlign(applet.CENTER, applet.TOP);
-        for (int i = 1; i <= intervals.x; i++) {
+        for (int i = 0; i <= intervals.x; i++) {
             applet.line(area.x + (i * (area.width / intervals.x)), area.y, area.x + (i * (area.width / intervals.x)), area.y + lineHeight);
             applet.text(Math.round((maxValues.x / intervals.x) * i), area.x + (i * (area.width / intervals.x)), area.y + lineHeight + 4);
         }
@@ -161,10 +162,26 @@ public class ScatterPlot {
     public void intervalEvery(int x, int y) {
         Vector2<Float> maxValues = getMaxValues();
 
-        float intervalX = maxValues.x / x;
-        float intervalY = maxValues.y / y;
+        int intervalX = (int)(maxValues.x / x);
+        int intervalY = (int)(maxValues.y / y);
 
         intervals = new Vector2<>(intervalX, intervalY);
+    }
+
+    public Vector2<Integer> getIntervals() {
+        return intervals;
+    }
+
+    public void setIntervals(Vector2<Integer> intervals) {
+        this.intervals = intervals;
+    }
+    
+    public Vector2<Float> getPointSize() {
+        return pointSize;
+    }
+
+    public void setPointSize(Vector2<Float> pointSize) {
+        this.pointSize = pointSize;
     }
 
     private List<DataModel> mapData(List<DataModel> data) {
