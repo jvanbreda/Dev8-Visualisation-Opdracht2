@@ -22,14 +22,14 @@ import java.util.List;
 public class Canvas extends PApplet {
     private DataProvider dataProvider;
     private ScatterPlotMatrix scatterPlotMatrix;
-    // Assignment B
-//    private ScatterPlot scatterPlot;
+    private ScatterPlot scatterPlot;
     
     public void setup(){
-        size(800, 800);
+        size(1200, 800);
         
         dataProvider = new DataProvider();
         
+        // Ugly ass shit
         LinkedHashMap<String, float[]> dataSet = new LinkedHashMap<>();
         List<StudentModel> studentModels = dataProvider.getStudentDataList();
         
@@ -62,8 +62,8 @@ public class Canvas extends PApplet {
         scatterPlotMatrix = new ScatterPlotMatrix(this, new Rect<>(100, 700, 600, 600), dataSet);
         
         // Assignment B
-//        scatterPlot = new ScatterPlot(this, new Rect<>(100, 700, 600, 600), dataProvider.getDataList());
-//        scatterPlot.intervalEvery(10, 100);
+        scatterPlot = new ScatterPlot(this, new Rect<>(900, 300, 200, 200), dataProvider.getDataList());
+        scatterPlot.intervalEvery(10, 100);
         
         
     }
@@ -74,9 +74,9 @@ public class Canvas extends PApplet {
         scatterPlotMatrix.draw();
         
         // Assignment B
-//        scatterPlot.draw();
-//        scatterPlot.drawAxis();
-//        scatterPlot.drawHelpLines();
+        scatterPlot.draw();
+        scatterPlot.drawAxis();
+        scatterPlot.drawHelpLines();
     }
     
 }

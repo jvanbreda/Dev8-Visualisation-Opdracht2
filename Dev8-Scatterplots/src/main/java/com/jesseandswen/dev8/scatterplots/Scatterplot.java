@@ -117,6 +117,46 @@ public class ScatterPlot {
         applet.textAlign(applet.RIGHT, applet.TOP);
         applet.text(0, area.x - 4, area.y - 4);
     }
+    
+    public void drawAxisX() {
+        applet.stroke(0);
+        applet.line(area.x, area.y, area.x + area.width, area.y); // Horizontal line (X-axis)
+
+        Vector2<Float> maxValues = getMaxValues();
+        applet.fill(0);
+        int lineHeight = 10;
+
+        // Horizontal intervals
+        applet.textAlign(applet.CENTER, applet.TOP);
+        for (int i = 1; i <= intervals.x; i++) {
+            applet.line(area.x + (i * (area.width / intervals.x)), area.y, area.x + (i * (area.width / intervals.x)), area.y + lineHeight);
+            applet.text(Math.round((maxValues.x / intervals.x) * i), area.x + (i * (area.width / intervals.x)), area.y + lineHeight + 4);
+        }
+    }
+    
+    public void drawAxisY() {
+        applet.stroke(0);
+        applet.line(area.x, area.y, area.x, area.y - area.height); // Vertical line (Y-axis)
+
+        Vector2<Float> maxValues = getMaxValues();
+        applet.fill(0);
+        int lineHeight = 10;
+
+        // Vertical intervals
+        applet.textAlign(applet.RIGHT, applet.CENTER);
+        for (int i = 1; i <= intervals.y; i++) {
+            applet.line(area.x, area.y - (i * (area.height / intervals.y)), area.x - lineHeight, area.y - (i * (area.height / intervals.y)));
+            applet.text(Math.round((maxValues.y / intervals.y) * i), area.x - lineHeight - 4, area.y - (i * (area.width / intervals.y)));
+        }
+    }
+    
+    public void drawOrigin() {
+        applet.stroke(0);
+
+        // Origin
+        applet.textAlign(applet.RIGHT, applet.TOP);
+        applet.text(0, area.x - 4, area.y - 4);
+    }
 
     public void intervalEvery(int x, int y) {
         Vector2<Float> maxValues = getMaxValues();
@@ -159,11 +199,13 @@ public class ScatterPlot {
         float maxEIG1 = 0f;
         float maxEIG2 = 0f;
 
-        for (DataModel model : dataList) {
-            if ((float)model.getEIG1() > maxEIG1) {
+        for (DataModel<Float> model : dataList) {
+            float EIG1 = model.getEIG1();
+            float EIG2 = model.getEIG2();
+            if (EIG1 > maxEIG1) {
                 maxEIG1 = (float)model.getEIG1();
             }
-            if ((float)model.getEIG2() > maxEIG2) {
+            if (EIG2 > maxEIG2) {
                 maxEIG2 = (float)model.getEIG2();
             }
         }

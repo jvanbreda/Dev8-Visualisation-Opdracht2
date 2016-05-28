@@ -42,13 +42,10 @@ public class ScatterPlotMatrix {
     }
 
     public void draw() {
-//        applet.stroke(0);
         applet.textAlign(applet.CENTER);
         applet.textSize(16);
         applet.fill(0);
         applet.text(title, area.x + area.width / 2, area.y - area.height - 20);
-//        applet.fill(240);
-//        applet.rect(area.x, area.y, area.width, -area.height);
         
         for (ScatterPlot scatterPlot : scatterPlots) {
             scatterPlot.drawBorder();
@@ -56,6 +53,7 @@ public class ScatterPlotMatrix {
         }
         
         drawDiagonals();
+        drawAxis();
     }
 
     public String getTitle() {
@@ -77,6 +75,14 @@ public class ScatterPlotMatrix {
             stringBuilder.append(" " + columnNames[i]);
         }
         return stringBuilder.toString();
+    }
+    
+    private void drawAxis() {
+        for (int i = 1; i <= dataSet.size(); i++) {
+            if(i % 2 != 0) {
+                scatterPlots.get(i - 1).drawAxisX();
+            }
+        }
     }
 
     private List<ScatterPlot> generateScatterPlots(LinkedHashMap<String, float[]> dataSet) {
