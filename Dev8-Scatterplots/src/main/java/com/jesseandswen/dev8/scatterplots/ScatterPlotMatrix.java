@@ -53,7 +53,7 @@ public class ScatterPlotMatrix {
         }
         
         drawDiagonals();
-        drawAxis();
+//        drawAxis();
     }
 
     public String getTitle() {
@@ -78,9 +78,13 @@ public class ScatterPlotMatrix {
     }
     
     private void drawAxis() {
-        for (int i = 1; i <= dataSet.size(); i++) {
-            if(i % 2 != 0) {
-                scatterPlots.get(i - 1).drawAxisX();
+        for (int i = 1; i < dataSet.size(); i++) {
+            for (int j = 1; j < dataSet.size(); j++) {
+                if(i < dataSet.size() && i % 2 != 0) {
+                    scatterPlots.get(i * j - 1).drawAxisX();
+                }
+                if(i % (dataSet.size() - 1) == 0)
+                    scatterPlots.get(i * j  - 1).drawAxisY();
             }
         }
     }
@@ -99,7 +103,7 @@ public class ScatterPlotMatrix {
                 }
                 
                 ScatterPlot scatterPlot = new ScatterPlot(applet, new Rect<Integer>(area.x + i * (area.width / dataSet.size()), area.y - k * (area.height / dataSet.size()), area.width / dataSet.size(), area.height / dataSet.size()), dataModels);
-                scatterPlot.setIntervals(new Vector2<>(5, 5));
+                scatterPlot.setIntervals(new Vector2<>(6, 6));
                 scatterPlot.setPointSize(new Vector2<>(1f, 1f));
                 scatterPlots.add(scatterPlot);
             }
