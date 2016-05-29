@@ -88,10 +88,10 @@ public class ScatterPlot {
             applet.stroke(125);
 
             applet.textAlign(applet.CENTER, applet.BOTTOM);
-            applet.text((int) map(mousePosition.x, area.x, area.x + area.width, 0, maxValues.x), mousePosition.x, area.y - area.height - 4);
+            applet.text(map(mousePosition.x, area.x, area.x + area.width, minValues.x, maxValues.x), mousePosition.x, area.y - area.height - 4);
 
             applet.textAlign(applet.LEFT, applet.CENTER);
-            applet.text((int) map(mousePosition.y, area.y, area.y - area.height, 0, maxValues.y), area.x + area.width + 4, mousePosition.y);
+            applet.text(map(mousePosition.y, area.y, area.y - area.height, minValues.y, maxValues.y), area.x + area.width + 4, mousePosition.y);
 
             applet.line(area.x, mousePosition.y, area.x + area.width, mousePosition.y); // Horizontal line (X-axis)
             applet.line(mousePosition.x, area.y, mousePosition.x, area.y - area.height); // Vertical line (Y-axis)
