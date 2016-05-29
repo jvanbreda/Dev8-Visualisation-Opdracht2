@@ -29,7 +29,7 @@ public class Canvas extends PApplet {
         
         dataProvider = new DataProvider();
         
-        // Ugly ass shit
+        // Ugly
         LinkedHashMap<String, float[]> dataSet = new LinkedHashMap<>();
         List<StudentModel> studentModels = dataProvider.getStudentDataList();
         
@@ -51,12 +51,12 @@ public class Canvas extends PApplet {
             skl[i] = studentModels.get(i).getSkl();
         }
         
-//        dataSet.put("StudentNumbers", studentNumbers);
-        dataSet.put("Student Age", studentAge);
-        dataSet.put("Analysis", ana);
-        dataSet.put("Development", dev);
-        dataSet.put("Project", prj);
         dataSet.put("Skills", skl);
+        dataSet.put("Project", prj);
+        dataSet.put("Development", dev);
+        dataSet.put("Analysis", ana);
+        dataSet.put("Student Age", studentAge);
+//        dataSet.put("StudentNumbers", studentNumbers);
         
         
         scatterPlotMatrix = new ScatterPlotMatrix(this, new Rect<>(100, 700, 600, 600), dataSet);
@@ -64,8 +64,6 @@ public class Canvas extends PApplet {
         // Assignment B
         scatterPlot = new ScatterPlot(this, new Rect<>(900, 300, 200, 200), dataProvider.getDataList());
         scatterPlot.intervalEvery(10, 100);
-        
-        
     }
     
     public void draw(){

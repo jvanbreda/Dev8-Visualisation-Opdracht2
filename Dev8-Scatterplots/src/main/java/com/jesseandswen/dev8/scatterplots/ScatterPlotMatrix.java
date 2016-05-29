@@ -22,25 +22,25 @@ import processing.core.PApplet;
  * @author swenm_000
  */
 public class ScatterPlotMatrix {
-
+    
     private PApplet applet;
-
+    
     private Rect<Integer> area;
     private LinkedHashMap dataSet;
     private List<ScatterPlot> scatterPlots;
-
+    
     private String title;
-
+    
     public ScatterPlotMatrix(PApplet applet, Rect<Integer> area, LinkedHashMap<String, float[]> dataSet) {
         this.applet = applet;
         this.area = area;
         this.dataSet = dataSet;
-
+        
         scatterPlots = generateScatterPlots(dataSet);
-
+        
         title = generateTitle(dataSet);
     }
-
+    
     public void draw() {
         applet.textAlign(applet.CENTER);
         applet.textSize(16);
@@ -51,19 +51,19 @@ public class ScatterPlotMatrix {
             scatterPlot.drawBorder();
             scatterPlot.draw();
         }
-        
-        drawDiagonals();
-//        drawAxis();
-    }
 
+//        drawDiagonals();
+        drawAxis();
+    }
+    
     public String getTitle() {
         return title;
     }
-
+    
     public void setTitle(String title) {
         this.title = title;
     }
-
+    
     private String generateTitle(LinkedHashMap<String, float[]> dataSet) {
         Object[] columnNames = dataSet.keySet().toArray();
         StringBuilder stringBuilder = new StringBuilder("Matrix Plot of ");
@@ -71,7 +71,7 @@ public class ScatterPlotMatrix {
             if (i != 0) {
                 stringBuilder.append(',');
             }
-
+            
             stringBuilder.append(" " + columnNames[i]);
         }
         return stringBuilder.toString();
@@ -80,21 +80,23 @@ public class ScatterPlotMatrix {
     private void drawAxis() {
         for (int i = 1; i < dataSet.size(); i++) {
             for (int j = 1; j < dataSet.size(); j++) {
-                if(i < dataSet.size() && i % 2 != 0) {
-                    scatterPlots.get(i * j - 1).drawAxisX();
+                // Bottom row
+                if ((i - 1) * (dataSet.size() - 1) + j < dataSet.size()) {
+                    if (((i - 1) * (dataSet.size() - 1) + j) % 2 == 0) {
+                        scatterPlots.get((i - 1) * (dataSet.size() - 1) + j).drawAxisX();
+                    }
                 }
-                if(i % (dataSet.size() - 1) == 0)
-                    scatterPlots.get(i * j  - 1).drawAxisY();
             }
         }
     }
-
+    
     private List<ScatterPlot> generateScatterPlots(LinkedHashMap<String, float[]> dataSet) {
         List<ScatterPlot> scatterPlots = new ArrayList<>();
         for (int k = 0; k < dataSet.size(); k++) {
             for (int i = 0; i < dataSet.size(); i++) {
-                if ((i + 1 + k) % dataSet.size() == 0)
-                    continue;
+//                Dont generate the diagonals at all
+//                if ((i + 1 + k) % dataSet.size() == 0)
+//                    continue;
 
                 List<DataModel> dataModels = new ArrayList<>();
                 for (int j = 0; j < dataSet.get((String) dataSet.keySet().toArray()[0]).length; j++) {
@@ -103,8 +105,13 @@ public class ScatterPlotMatrix {
                 }
                 
                 ScatterPlot scatterPlot = new ScatterPlot(applet, new Rect<Integer>(area.x + i * (area.width / dataSet.size()), area.y - k * (area.height / dataSet.size()), area.width / dataSet.size(), area.height / dataSet.size()), dataModels);
-                scatterPlot.setIntervals(new Vector2<>(6, 6));
+                scatterPlot.setIntervals(new Vector2<>(3, 3));
                 scatterPlot.setPointSize(new Vector2<>(1f, 1f));
+                
+//                Generate the diagonal plots, but don't draw them
+                if ((i + 1 + k) % dataSet.size() == 0)
+                    scatterPlot.setIsVisible(false);
+                    
                 scatterPlots.add(scatterPlot);
             }
         }
@@ -114,8 +121,9 @@ public class ScatterPlotMatrix {
     private void drawDiagonals() {
         for (int k = 0; k < dataSet.size(); k++) {
             for (int i = 0; i < dataSet.size(); i++) {
-                if ((i + 1 + k) % dataSet.size() != 0)
+                if ((i + 1 + k) % dataSet.size() != 0) {
                     continue;
+                }
                 
                 applet.stroke(0);
                 applet.fill(240);
