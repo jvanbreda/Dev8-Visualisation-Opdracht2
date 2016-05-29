@@ -5,6 +5,7 @@
  */
 package com.jesseandswen.dev8.scatterplots;
 
+import com.jesseandswen.dev8.scatterplots.Models.AxisAlign;
 import com.jesseandswen.dev8.scatterplots.Models.DataModel;
 import com.jesseandswen.dev8.scatterplots.Models.Rect;
 import com.jesseandswen.dev8.scatterplots.Models.ScatterMatrixDataSet;
@@ -45,14 +46,14 @@ public class ScatterPlotMatrix {
         applet.textAlign(applet.CENTER);
         applet.textSize(16);
         applet.fill(0);
-        applet.text(title, area.x + area.width / 2, area.y - area.height - 20);
+        applet.text(title, area.x + area.width / 2, area.y - area.height - 40);
         
         for (ScatterPlot scatterPlot : scatterPlots) {
             scatterPlot.drawBorder();
             scatterPlot.draw();
         }
 
-//        drawDiagonals();
+        drawDiagonals();
         drawAxis();
     }
     
@@ -78,15 +79,31 @@ public class ScatterPlotMatrix {
     }
     
     private void drawAxis() {
-        for (int i = 1; i < dataSet.size(); i++) {
-            for (int j = 1; j < dataSet.size(); j++) {
-                // Bottom row
-                if ((i - 1) * (dataSet.size() - 1) + j < dataSet.size()) {
-                    if (((i - 1) * (dataSet.size() - 1) + j) % 2 == 0) {
-                        scatterPlots.get((i - 1) * (dataSet.size() - 1) + j).drawAxisX();
-                    }
-                }
-            }
+//        for (int i = 1; i < dataSet.size(); i++) {
+//            for (int j = 1; j < dataSet.size(); j++) {
+//                // Bottom
+//                if ((i - 1) * (dataSet.size() - 1) + j < dataSet.size()) {
+//                    if (((i - 1) * (dataSet.size() - 1) + j) % 2 == 0) {
+//                        scatterPlots.get((i - 1) * (dataSet.size() - 1) + j).drawAxisX();
+//                    }
+//                }
+//            }
+//        }
+        for (int i = 0; i < scatterPlots.size(); i++) {
+            // Bottom
+            if(i < dataSet.size())
+                if (i % 2 == 0)
+                    scatterPlots.get(i).drawAxis(AxisAlign.BOTTOM);
+            // Top
+            if(i >= scatterPlots.size() - dataSet.size())
+                if (i % 2 == 1)
+                    scatterPlots.get(i).drawAxis(AxisAlign.TOP);
+            // Left
+            if(i % (dataSet.size() * 2) == 0)
+                scatterPlots.get(i).drawAxis(AxisAlign.LEFT);
+            // Right
+            if((i + dataSet.size()) % (dataSet.size() * 2) == 4)
+                scatterPlots.get(i).drawAxis(AxisAlign.RIGHT);
         }
     }
     
