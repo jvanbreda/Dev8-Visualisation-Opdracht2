@@ -35,6 +35,9 @@ public class ScatterPlot {
     
     private Vector2<Integer> intervals = new Vector2<>(10, 10);
     private Vector2<Float> pointSize = new Vector2<>(5f, 5f);
+    private float intervalTextSize = 9f;
+    
+    private boolean isVisible = true;
 
     public ScatterPlot(PApplet applet, Rect<Integer> area, List<DataModel> data) {
         this.applet = applet;
@@ -48,6 +51,9 @@ public class ScatterPlot {
     }
 
     public void draw() {
+        if(!isVisible)
+            return;
+        
         for (DataModel model : mappedDataList) {
             Rgb rgb = Rgb.RED;
             switch (model.getCAT()) {
@@ -103,6 +109,7 @@ public class ScatterPlot {
         applet.line(area.x, area.y, area.x, area.y - area.height); // Vertical line (Y-axis)
 
         applet.fill(0);
+        applet.textSize(intervalTextSize);
         int lineHeight = 10;
 
         // Horizontal intervals
@@ -129,6 +136,7 @@ public class ScatterPlot {
         applet.line(area.x, area.y, area.x + area.width, area.y); // Horizontal line (X-axis)
 
         applet.fill(0);
+        applet.textSize(intervalTextSize);
         int lineHeight = 10;
 
         // Horizontal intervals
@@ -144,6 +152,7 @@ public class ScatterPlot {
         applet.line(area.x, area.y, area.x, area.y - area.height); // Vertical line (Y-axis)
 
         applet.fill(0);
+        applet.textSize(intervalTextSize);
         int lineHeight = 10;
 
         // Vertical intervals
@@ -155,7 +164,8 @@ public class ScatterPlot {
     }
     
     public void drawOrigin() {
-        applet.stroke(0);
+        applet.fill(0);
+        applet.textSize(intervalTextSize);
 
         // Origin
         applet.textAlign(applet.RIGHT, applet.TOP);
@@ -186,6 +196,14 @@ public class ScatterPlot {
         this.pointSize = pointSize;
     }
 
+    public boolean isIsVisible() {
+        return isVisible;
+    }
+
+    public void setIsVisible(boolean isVisible) {
+        this.isVisible = isVisible;
+    }
+    
     private List<DataModel> mapData(List<DataModel> data) {
         DataModel[] newData = new DataModel[data.size()];
         for (int i = 0; i < data.size(); i++) {
