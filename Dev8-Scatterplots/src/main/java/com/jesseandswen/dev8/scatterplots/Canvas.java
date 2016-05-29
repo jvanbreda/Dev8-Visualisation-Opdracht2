@@ -7,6 +7,7 @@ package com.jesseandswen.dev8.scatterplots;
 
 import com.jesseandswen.dev8.scatterplots.Data.DataProvider;
 import com.jesseandswen.dev8.scatterplots.Models.DataModel;
+import com.jesseandswen.dev8.scatterplots.Models.Legend;
 import com.jesseandswen.dev8.scatterplots.Models.Rect;
 import com.jesseandswen.dev8.scatterplots.Models.ScatterMatrixDataSet;
 import com.jesseandswen.dev8.scatterplots.Models.StudentModel;
@@ -23,6 +24,7 @@ public class Canvas extends PApplet {
     private DataProvider dataProvider;
     private ScatterPlotMatrix scatterPlotMatrix;
     private ScatterPlot scatterPlot;
+    private Legend legend;
     
     public void setup(){
         size(1600, 800);
@@ -64,6 +66,10 @@ public class Canvas extends PApplet {
         // Assignment B
         scatterPlot = new ScatterPlot(this, new Rect<>(900, 700, 600, 600), dataProvider.getDataList());
         scatterPlot.intervalEvery(10, 100);
+        
+        legend = new Legend(new Rect<>(900, 350, 200, 100), this);
+        
+        
     }
     
     public void draw(){
@@ -74,7 +80,9 @@ public class Canvas extends PApplet {
         // Assignment B
         scatterPlot.draw();
         scatterPlot.drawAxis();
-        //scatterPlot.drawHelpLines();
+        scatterPlot.drawHelpLines();
+        
+        legend.draw();
     }
     
 }
