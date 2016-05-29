@@ -23,6 +23,8 @@ import static processing.core.PApplet.map;
  *
  * @author swenm_000
  */
+
+// Refacter class if it gives an error (There is something wrong with netbeans and capitals)
 public class ScatterPlot {
 
     private PApplet applet;
