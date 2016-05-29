@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jesseandswen.dev8.scatterplots.Models;
+package com.jesseandswen.dev8.scatterplots;
 
 import com.jesseandswen.dev8.scatterplots.Canvas;
+import com.jesseandswen.dev8.scatterplots.Models.Rect;
+import com.jesseandswen.dev8.scatterplots.Models.Rgb;
 import processing.core.PApplet;
 
 /**
@@ -55,6 +57,8 @@ public class Legend {
             
             applet.ellipse(area.x + margin, area.y + (linespace * i), 5, 5);
             applet.fill(0);
+            applet.textAlign(applet.LEFT, applet.CENTER);
+            applet.textSize(12f);
             applet.text(text, area.x + margin + 10, area.y + (linespace * i));
             
         }
