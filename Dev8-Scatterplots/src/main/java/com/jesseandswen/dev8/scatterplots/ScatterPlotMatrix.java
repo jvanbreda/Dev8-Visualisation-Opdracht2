@@ -42,13 +42,10 @@ public class ScatterPlotMatrix {
     }
 
     public void draw() {
-//        applet.stroke(0);
         applet.textAlign(applet.CENTER);
         applet.textSize(16);
         applet.fill(0);
         applet.text(title, area.x + area.width / 2, area.y - area.height - 20);
-//        applet.fill(240);
-//        applet.rect(area.x, area.y, area.width, -area.height);
         
         for (ScatterPlot scatterPlot : scatterPlots) {
             scatterPlot.drawBorder();
@@ -56,6 +53,7 @@ public class ScatterPlotMatrix {
         }
         
         drawDiagonals();
+//        drawAxis();
     }
 
     public String getTitle() {
@@ -78,6 +76,18 @@ public class ScatterPlotMatrix {
         }
         return stringBuilder.toString();
     }
+    
+    private void drawAxis() {
+        for (int i = 1; i < dataSet.size(); i++) {
+            for (int j = 1; j < dataSet.size(); j++) {
+                if(i < dataSet.size() && i % 2 != 0) {
+                    scatterPlots.get(i * j - 1).drawAxisX();
+                }
+                if(i % (dataSet.size() - 1) == 0)
+                    scatterPlots.get(i * j  - 1).drawAxisY();
+            }
+        }
+    }
 
     private List<ScatterPlot> generateScatterPlots(LinkedHashMap<String, float[]> dataSet) {
         List<ScatterPlot> scatterPlots = new ArrayList<>();
@@ -87,12 +97,15 @@ public class ScatterPlotMatrix {
                     continue;
 
                 List<DataModel> dataModels = new ArrayList<>();
-                for (int j = 0; j < dataSet.values().size(); j++) {
-                    DataModel dataModel = new DataModel(1, dataSet.get((String) dataSet.keySet().toArray()[k])[j], dataSet.get((String) dataSet.keySet().toArray()[dataSet.size() - 1 - i])[j]);
+                for (int j = 0; j < dataSet.get((String) dataSet.keySet().toArray()[0]).length; j++) {
+                    DataModel dataModel = new DataModel(1, dataSet.get((String) dataSet.keySet().toArray()[dataSet.size() - 1 - i])[j], dataSet.get((String) dataSet.keySet().toArray()[k])[j]);
                     dataModels.add(dataModel);
                 }
-
-                scatterPlots.add(new ScatterPlot(applet, new Rect<Integer>(area.x + i * (area.width / dataSet.size()), area.y - k * (area.height / dataSet.size()), area.width / dataSet.size(), area.height / dataSet.size()), dataModels));
+                
+                ScatterPlot scatterPlot = new ScatterPlot(applet, new Rect<Integer>(area.x + i * (area.width / dataSet.size()), area.y - k * (area.height / dataSet.size()), area.width / dataSet.size(), area.height / dataSet.size()), dataModels);
+                scatterPlot.setIntervals(new Vector2<>(6, 6));
+                scatterPlot.setPointSize(new Vector2<>(1f, 1f));
+                scatterPlots.add(scatterPlot);
             }
         }
         return scatterPlots;

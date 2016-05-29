@@ -59,7 +59,7 @@ public class DataProvider {
             lineScanner.useDelimiter("\t");
             DataModel dm = new DataModel();
             dm.setCAT(Integer.parseInt(lineScanner.next()));
-            dm.setEIG1(Integer.parseInt(lineScanner.next()));
+            dm.setEIG1(Float.parseFloat(lineScanner.next()));
             dm.setEIG2(Float.parseFloat((lineScanner.next()).replace(',', '.')));
             plots.add(dm);
         }
