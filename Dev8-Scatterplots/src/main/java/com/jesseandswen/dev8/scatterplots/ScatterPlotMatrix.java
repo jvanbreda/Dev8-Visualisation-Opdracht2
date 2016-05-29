@@ -102,7 +102,7 @@ public class ScatterPlotMatrix {
             if(i % (dataSet.size() * 2) == 0)
                 scatterPlots.get(i).drawAxis(AxisAlign.LEFT);
             // Right
-            if((i + dataSet.size()) % (dataSet.size() * 2) == 4)
+            if((i + dataSet.size()) % (dataSet.size() * 2) == dataSet.size() - 1)
                 scatterPlots.get(i).drawAxis(AxisAlign.RIGHT);
         }
     }
@@ -122,7 +122,7 @@ public class ScatterPlotMatrix {
                 }
                 
                 ScatterPlot scatterPlot = new ScatterPlot(applet, new Rect<Integer>(area.x + i * (area.width / dataSet.size()), area.y - k * (area.height / dataSet.size()), area.width / dataSet.size(), area.height / dataSet.size()), dataModels);
-                scatterPlot.setIntervals(new Vector2<>(3, 3));
+                scatterPlot.setIntervals(new Vector2<>(4, 4));
                 scatterPlot.setPointSize(new Vector2<>(1f, 1f));
                 
 //                Generate the diagonal plots, but don't draw them

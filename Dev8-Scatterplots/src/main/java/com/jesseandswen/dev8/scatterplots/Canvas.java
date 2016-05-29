@@ -54,8 +54,8 @@ public class Canvas extends PApplet {
         dataSet.put("Skills", skl);
         dataSet.put("Project", prj);
         dataSet.put("Development", dev);
-        dataSet.put("Analysis", ana);
-        dataSet.put("Student Age", studentAge);
+//        dataSet.put("Analysis", ana);
+//        dataSet.put("Student Age", studentAge);
 //        dataSet.put("StudentNumbers", studentNumbers);
         
         
