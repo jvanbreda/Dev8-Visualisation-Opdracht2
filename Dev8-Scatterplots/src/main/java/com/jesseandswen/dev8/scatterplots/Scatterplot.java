@@ -145,15 +145,15 @@ public class ScatterPlot {
         if (align.equals(AxisAlign.BOTTOM)) {
             applet.textAlign(applet.CENTER, applet.TOP);
             for (int i = 0; i <= intervals.x; i++) {
-                applet.line(area.x + (i * (area.width / intervals.x)), area.y, area.x + (i * (area.width / intervals.x)), area.y + lineLength);
-                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.x + ((maxValues.x - minValues.x) / (float) intervals.x) * i), area.x + (i * (area.width / intervals.x)), area.y + lineLength + 4);
+                applet.line(area.x + (i * (area.width / (float)intervals.x)), area.y, area.x + (i * (area.width / (float)intervals.x)), area.y + lineLength);
+                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.x + ((maxValues.x - minValues.x) / (float) intervals.x) * i), area.x + (i * (area.width / (float)intervals.x)), area.y + lineLength + 4);
             }
         }
         if (align.equals(AxisAlign.TOP)) {
             applet.textAlign(applet.CENTER, applet.BOTTOM);
             for (int i = 0; i <= intervals.x; i++) {
-                applet.line(area.x + (i * (area.width / intervals.x)), area.y - area.height, area.x + (i * (area.width / intervals.x)), area.y - area.height - lineLength);
-                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.x + ((maxValues.x - minValues.x) / (float) intervals.x) * i), area.x + (i * (area.width / intervals.x)), area.y - area.height - lineLength - 4);
+                applet.line(area.x + (i * (area.width / (float)intervals.x)), area.y - area.height, area.x + (i * (area.width / (float)intervals.x)), area.y - area.height - lineLength);
+                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.x + ((maxValues.x - minValues.x) / (float) intervals.x) * i), area.x + (i * (area.width / (float)intervals.x)), area.y - area.height - lineLength - 4);
             }
         }
 
@@ -161,15 +161,15 @@ public class ScatterPlot {
         if (align.equals(AxisAlign.LEFT)) {
             applet.textAlign(applet.RIGHT, applet.CENTER);
             for (int i = 0; i <= intervals.y; i++) {
-                applet.line(area.x, area.y - (i * (area.height / intervals.y)), area.x - lineLength, area.y - (i * (area.height / intervals.y)));
-                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.y + ((maxValues.y - minValues.y) / (float) intervals.y) * i), area.x - lineLength - 4, area.y - (i * (area.width / intervals.y)));
+                applet.line(area.x, area.y - (i * (area.height / (float)intervals.y)), area.x - lineLength, area.y - (i * (area.height / (float)intervals.y)));
+                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.y + ((maxValues.y - minValues.y) / (float) intervals.y) * i), area.x - lineLength - 4, area.y - (i * (area.width / (float)intervals.y)));
             }
         }
         if (align.equals(AxisAlign.RIGHT)) {
             applet.textAlign(applet.LEFT, applet.CENTER);
             for (int i = 0; i <= intervals.y; i++) {
-                applet.line(area.x + area.width, area.y - (i * (area.height / intervals.y)), area.x + area.width + lineLength, area.y - (i * (area.height / intervals.y)));
-                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.y + ((maxValues.y - minValues.y) / (float) intervals.y) * i), area.x + area.width + lineLength + 4, area.y - (i * (area.width / intervals.y)));
+                applet.line(area.x + area.width, area.y - (i * (area.height / (float)intervals.y)), area.x + area.width + lineLength, area.y - (i * (area.height / (float)intervals.y)));
+                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.y + ((maxValues.y - minValues.y) / (float) intervals.y) * i), area.x + area.width + lineLength + 4, area.y - (i * (area.width / (float)intervals.y)));
             }
         }
     }
@@ -261,6 +261,20 @@ public class ScatterPlot {
             newData[i] = model;
         }
         return Arrays.asList(newData);
+    }
+    
+    // HMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM???????????????????
+    @Deprecated
+    private Vector2<Float> getRoundedMaxValues() {
+        Vector2<Float> maxValues = getMaxValues();
+
+        int lengthOfX = String.valueOf(Math.round(maxValues.x)).length();
+        int lengthOfY = String.valueOf(Math.round(maxValues.y)).length();
+
+        maxValues.x = maxValues.x - (maxValues.x % 10);
+        maxValues.y = maxValues.y - (maxValues.y % 100) + 100;
+
+        return maxValues;
     }
 
     private Vector2<Float> getMaxValues() {
