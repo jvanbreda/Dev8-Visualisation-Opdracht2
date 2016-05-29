@@ -74,7 +74,7 @@ public class Canvas extends PApplet {
         // Assignment B
         scatterPlot.draw();
         scatterPlot.drawAxis();
-        scatterPlot.drawHelpLines();
+        //scatterPlot.drawHelpLines();
     }
     
 }
