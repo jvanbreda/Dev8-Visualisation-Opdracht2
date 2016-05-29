@@ -174,6 +174,7 @@ public class ScatterPlot {
         }
     }
 
+    @Deprecated
     public void drawAxisX() {
         applet.stroke(0);
         applet.line(area.x, area.y, area.x + area.width, area.y); // Horizontal line (X-axis)
@@ -190,6 +191,7 @@ public class ScatterPlot {
         }
     }
 
+    @Deprecated
     public void drawAxisY() {
         applet.stroke(0);
         applet.line(area.x, area.y, area.x, area.y - area.height); // Vertical line (Y-axis)
@@ -206,6 +208,7 @@ public class ScatterPlot {
         }
     }
 
+    @Deprecated
     public void drawOrigin() {
         applet.fill(0);
         applet.textSize(intervalTextSize);
@@ -258,20 +261,6 @@ public class ScatterPlot {
             newData[i] = model;
         }
         return Arrays.asList(newData);
-    }
-
-    // HMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM???????????????????
-    @Deprecated
-    private Vector2<Float> getRoundedMaxValues() {
-        Vector2<Float> maxValues = getMaxValues();
-
-        int lengthOfX = String.valueOf(Math.round(maxValues.x)).length();
-        int lengthOfY = String.valueOf(Math.round(maxValues.y)).length();
-
-        maxValues.x = maxValues.x - (maxValues.x % 10);
-        maxValues.y = maxValues.y - (maxValues.y % 100) + 100;
-
-        return maxValues;
     }
 
     private Vector2<Float> getMaxValues() {
