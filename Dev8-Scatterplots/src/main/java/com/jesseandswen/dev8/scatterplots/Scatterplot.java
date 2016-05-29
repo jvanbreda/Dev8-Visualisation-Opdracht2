@@ -6,6 +6,7 @@
 package com.jesseandswen.dev8.scatterplots;
 
 import com.jesseandswen.dev8.scatterplots.Models.DataModel;
+import com.jesseandswen.dev8.scatterplots.Models.Legend;
 import com.jesseandswen.dev8.scatterplots.Models.Rect;
 import com.jesseandswen.dev8.scatterplots.Models.Rgb;
 import com.jesseandswen.dev8.scatterplots.Models.Vector2;
@@ -35,6 +36,8 @@ public class ScatterPlot {
     
     private Vector2<Integer> intervals = new Vector2<>(10, 10);
     private Vector2<Float> pointSize = new Vector2<>(5f, 5f);
+    
+    
 
     public ScatterPlot(PApplet applet, Rect<Integer> area, List<DataModel> data) {
         this.applet = applet;
