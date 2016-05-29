@@ -7,7 +7,6 @@ package com.jesseandswen.dev8.scatterplots;
 
 import com.jesseandswen.dev8.scatterplots.Models.AxisAlign;
 import com.jesseandswen.dev8.scatterplots.Models.DataModel;
-import com.jesseandswen.dev8.scatterplots.Models.Legend;
 import com.jesseandswen.dev8.scatterplots.Models.Rect;
 import com.jesseandswen.dev8.scatterplots.Models.Rgb;
 import com.jesseandswen.dev8.scatterplots.Models.Vector2;
