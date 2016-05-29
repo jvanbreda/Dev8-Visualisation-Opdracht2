@@ -24,7 +24,6 @@ import static processing.core.PApplet.map;
  *
  * @author swenm_000
  */
-
 // Refacter class if it gives an error (There is something wrong with netbeans and capitals)
 public class ScatterPlot {
 
@@ -58,6 +57,8 @@ public class ScatterPlot {
         if (!isVisible) {
             return;
         }
+        
+        
 
         for (DataModel model : mappedDataList) {
             Rgb rgb = Rgb.RED;
@@ -81,6 +82,13 @@ public class ScatterPlot {
             applet.fill(rgb.getR(), rgb.getG(), rgb.getB());
             applet.ellipse(Float.parseFloat(model.getEIG1().toString()), Float.parseFloat(model.getEIG2().toString()), pointSize.x, pointSize.y);
         }
+    }
+    
+    public void drawTitle() {
+        applet.textAlign(applet.CENTER);
+        applet.textSize(16);
+        applet.fill(0);
+        applet.text("Scatter Plot of EIG1 and EIG2", area.x + area.width / 2, area.y - area.height - 40);
     }
 
     public void drawHelpLines() {
@@ -148,15 +156,15 @@ public class ScatterPlot {
         if (align.equals(AxisAlign.BOTTOM)) {
             applet.textAlign(applet.CENTER, applet.TOP);
             for (int i = 0; i <= intervals.x; i++) {
-                applet.line(area.x + (i * (area.width / (float)intervals.x)), area.y, area.x + (i * (area.width / (float)intervals.x)), area.y + lineLength);
-                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.x + ((maxValues.x - minValues.x) / (float) intervals.x) * i), area.x + (i * (area.width / (float)intervals.x)), area.y + lineLength + 4);
+                applet.line(area.x + (i * (area.width / (float) intervals.x)), area.y, area.x + (i * (area.width / (float) intervals.x)), area.y + lineLength);
+                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.x + ((maxValues.x - minValues.x) / (float) intervals.x) * i), area.x + (i * (area.width / (float) intervals.x)), area.y + lineLength + 4);
             }
         }
         if (align.equals(AxisAlign.TOP)) {
             applet.textAlign(applet.CENTER, applet.BOTTOM);
             for (int i = 0; i <= intervals.x; i++) {
-                applet.line(area.x + (i * (area.width / (float)intervals.x)), area.y - area.height, area.x + (i * (area.width / (float)intervals.x)), area.y - area.height - lineLength);
-                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.x + ((maxValues.x - minValues.x) / (float) intervals.x) * i), area.x + (i * (area.width / (float)intervals.x)), area.y - area.height - lineLength - 4);
+                applet.line(area.x + (i * (area.width / (float) intervals.x)), area.y - area.height, area.x + (i * (area.width / (float) intervals.x)), area.y - area.height - lineLength);
+                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.x + ((maxValues.x - minValues.x) / (float) intervals.x) * i), area.x + (i * (area.width / (float) intervals.x)), area.y - area.height - lineLength - 4);
             }
         }
 
@@ -164,15 +172,15 @@ public class ScatterPlot {
         if (align.equals(AxisAlign.LEFT)) {
             applet.textAlign(applet.RIGHT, applet.CENTER);
             for (int i = 0; i <= intervals.y; i++) {
-                applet.line(area.x, area.y - (i * (area.height / (float)intervals.y)), area.x - lineLength, area.y - (i * (area.height / (float)intervals.y)));
-                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.y + ((maxValues.y - minValues.y) / (float) intervals.y) * i), area.x - lineLength - 4, area.y - (i * (area.width / (float)intervals.y)));
+                applet.line(area.x, area.y - (i * (area.height / (float) intervals.y)), area.x - lineLength, area.y - (i * (area.height / (float) intervals.y)));
+                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.y + ((maxValues.y - minValues.y) / (float) intervals.y) * i), area.x - lineLength - 4, area.y - (i * (area.width / (float) intervals.y)));
             }
         }
         if (align.equals(AxisAlign.RIGHT)) {
             applet.textAlign(applet.LEFT, applet.CENTER);
             for (int i = 0; i <= intervals.y; i++) {
-                applet.line(area.x + area.width, area.y - (i * (area.height / (float)intervals.y)), area.x + area.width + lineLength, area.y - (i * (area.height / (float)intervals.y)));
-                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.y + ((maxValues.y - minValues.y) / (float) intervals.y) * i), area.x + area.width + lineLength + 4, area.y - (i * (area.width / (float)intervals.y)));
+                applet.line(area.x + area.width, area.y - (i * (area.height / (float) intervals.y)), area.x + area.width + lineLength, area.y - (i * (area.height / (float) intervals.y)));
+                applet.text(String.format(java.util.Locale.US, "%.2f", minValues.y + ((maxValues.y - minValues.y) / (float) intervals.y) * i), area.x + area.width + lineLength + 4, area.y - (i * (area.width / (float) intervals.y)));
             }
         }
     }
@@ -265,7 +273,7 @@ public class ScatterPlot {
         }
         return Arrays.asList(newData);
     }
-    
+
     // HMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM???????????????????
     @Deprecated
     private Vector2<Float> getRoundedMaxValues() {
